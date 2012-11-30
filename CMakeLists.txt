@@ -13,10 +13,13 @@ SET ( PROJECT_VERSION "${ASSIMP_VERSION}" )
 set(ASSIMP_PACKAGE_VERSION "0" CACHE STRING "the package-specific version used for uploading the sources")
 
 option(ASSIMP_OPT_BUILD_PACKAGES "Set to ON to generate CPack configuration files and packaging targets" OFF)
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules")
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules;${BOOTSTRAP_DIR}/CMake)
 set(LIBASSIMP_COMPONENT libassimp${ASSIMP_VERSION_MAJOR}.${ASSIMP_VERSION_MINOR}-r${ASSIMP_SV_REVISION})
 set(LIBASSIMP-DEV_COMPONENT libassimp${ASSIMP_VERSION_MAJOR}.${ASSIMP_VERSION_MINOR}-r${ASSIMP_SV_REVISION}-dev)
 set(CPACK_COMPONENTS_ALL assimp-bin ${LIBASSIMP_COMPONENT} ${LIBASSIMP-DEV_COMPONENT} assimp-dev)
+
+# Bind the bootstrap script arguments
+include(PwntBootstrap)
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   add_definitions(-fPIC) # this is a very important switch and some libraries seem now to have it....
@@ -45,10 +48,10 @@ SET( ASSIMP_INCLUDE_INSTALL_DIR "include" CACHE PATH
 SET( ASSIMP_BIN_INSTALL_DIR "bin" CACHE PATH
 	"Path the tool executables are installed to." )
 
-SET(ASSIMP_DEBUG_POSTFIX "D" CACHE STRING "Debug Postfitx for lib, samples and tools")
+SET(ASSIMP_DEBUG_POSTFIX d CACHE STRING "Debug Postfitx for lib, samples and tools")
 
 # Allow the user to build a static library
-SET ( ASSIMP_BUILD_STATIC_LIB OFF CACHE BOOL
+SET ( ASSIMP_BUILD_STATIC_LIB ON CACHE BOOL
 	"Build a static (.a) version of the library"
 )
 
@@ -148,7 +151,7 @@ MARK_AS_ADVANCED ( ASSIMP_BUILD_ARCHITECTURE ASSIMP_BUILD_COMPILER )
 
 
 ADD_SUBDIRECTORY( code/ )
-SET ( ASSIMP_BUILD_ASSIMP_TOOLS ON CACHE BOOL
+SET ( ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL
 	"If the supplementary tools for Assimp are built in addition to the library."
 )
 IF ( ASSIMP_BUILD_ASSIMP_TOOLS )

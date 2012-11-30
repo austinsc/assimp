@@ -1040,7 +1040,7 @@ void InsertWindowContours(const ContourVector& contours,
 	const std::vector<TempOpening>& openings,
 	TempMesh& curmesh)
 {
-	ai_assert(contours.size() == bbs.size());
+	//ai_assert(contours.size() == bbs.size());
 
 	// fix windows - we need to insert the real, polygonal shapes into the quadratic holes that we have now
 	for(size_t i = 0; i < contours.size();++i) {
